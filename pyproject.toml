@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spenpy"
+version = "0.1.0"
+description = "SPEN (Spatiotemporally Encoded) MRI reconstruction in Python"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+    "scipy>=1.10",
+    "pillow>=9.0",
+    "PyYAML>=6.0",
+    "matplotlib>=3.7",
+    "nibabel>=5.2",
+]
+
+[project.optional-dependencies]
+siemens = [
+    "twixtools>=0.24",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+]
+
+[project.scripts]
+spenpy = "spenpy.cli.pv360:main"
+spenpy-pv360-full = "spenpy.cli.pv360_full:main"
+
+[tool.setuptools.packages.find]
+include = ["spenpy*"]
+
+[tool.setuptools.package-data]
+spenpy = ["configs/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

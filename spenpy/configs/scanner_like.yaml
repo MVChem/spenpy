@@ -1,0 +1,83 @@
+version: 1
+
+# Values are based on the included Bruker PV360 SPEN scans:
+# PVM_Matrix mostly 96x96, PVM_FovCm 1.6 or 3.0 cm, NSegments 1,
+# SpatEncDuration 9.216-19.526 ms, EPI echo spacing 0.2304-0.384 ms,
+# 4 receiver channels before reconstruction.
+scanner:
+  L: [1.6, 1.6]
+  acq_point: [96, 96]
+  nseg: 1
+  chirp_rvalue: 150.0
+  tblip: 0.0002304
+  gamma_hz: 4257.4
+  sw_hz: 416666.6667
+  oversample_pe: 16
+  a_sign: -1
+  gauss_relative_width: 0.8
+
+randomization:
+  seed:
+
+scanner_raw:
+  num_coils: 4
+  coil_combine: adaptive
+  coil_sensitivity:
+    enabled: true
+    radius: 0.65
+    width: 0.85
+    floor: 0.05
+    phase_winding_range_rad: [-0.45, 0.45]
+  receiver:
+    gain_range: [0.90, 1.10]
+    phase_range_rad: [-3.14159265, 3.14159265]
+
+artifacts:
+  b0:
+    enabled: true
+    coef_ranges_cm:
+      - [-0.010, 0.010]
+      - [-0.025, 0.025]
+      - [-0.008, 0.008]
+      - [-0.002, 0.002]
+
+  shot_phase:
+    enabled: true
+    poly_coeff_ranges_rad:
+      - [-0.25, 0.25]
+      - [-0.60, 0.60]
+      - [-0.60, 0.60]
+      - [-0.20, 0.20]
+      - [-0.16, 0.16]
+      - [-0.20, 0.20]
+    smooth_std_range_rad: [0.0, 0.35]
+    smooth_grid: 6
+
+  even_odd:
+    enabled: true
+    apply_when_nseg_odd: true
+    constant_range_rad: [-1.2, 1.2]
+    linear_range_rad_per_cm: [-4.0, 4.0]
+    quadratic_range_rad_per_cm2: [-1.0, 1.0]
+    object_phase_scale_range_rad: [0.0, 3.2]
+    smooth_std_range_rad: [0.0, 0.35]
+    estimate_error_std_rad: 0.06
+
+  trajectory:
+    segment_shift_range_cm: [-0.006, 0.006]
+    readout_shift_range_px: [-0.8, 0.8]
+    phase_shift_range_px: [-0.6, 0.6]
+    line_dropout_probability: 0.08
+    line_dropout_width: 1
+
+  intensity:
+    gain_range: [0.75, 1.35]
+    bias_field_std_range: [0.0, 0.22]
+    bias_grid: 5
+    gamma_range: [0.85, 1.20]
+
+  noise:
+    complex_std: [0.002, 0.025]
+    relative_to_signal: true
+    kspace_spike_probability: 0.03
+    kspace_spike_scale: [0.10, 0.55]

@@ -1,0 +1,79 @@
+version: 1
+
+# Wider synthetic domain for stress-testing DL reconstruction.  This profile
+# deliberately covers artifacts beyond the current demo data; use it mixed
+# with scanner_like.yaml rather than as the only training source.
+scanner:
+  L: [1.6, 1.6]
+  acq_point: [96, 96]
+  nseg: 1
+  chirp_rvalue: 150.0
+  tblip: 0.0003072
+  gamma_hz: 4257.4
+  sw_hz: 416666.6667
+  oversample_pe: 16
+  a_sign: -1
+  gauss_relative_width: 0.8
+
+scanner_raw:
+  num_coils: 4
+  coil_combine: adaptive
+  coil_sensitivity:
+    enabled: true
+    radius: 0.68
+    width: 0.82
+    floor: 0.04
+    phase_winding_range_rad: [-0.70, 0.70]
+  receiver:
+    gain_range: [0.78, 1.28]
+    phase_range_rad: [-3.14159265, 3.14159265]
+
+artifacts:
+  b0:
+    enabled: true
+    coef_ranges_cm:
+      - [-0.020, 0.020]
+      - [-0.050, 0.050]
+      - [-0.018, 0.018]
+      - [-0.004, 0.004]
+
+  shot_phase:
+    enabled: true
+    poly_coeff_ranges_rad:
+      - [-0.55, 0.55]
+      - [-1.20, 1.20]
+      - [-1.20, 1.20]
+      - [-0.45, 0.45]
+      - [-0.30, 0.30]
+      - [-0.45, 0.45]
+    smooth_std_range_rad: [0.0, 0.75]
+    smooth_grid: 6
+
+  even_odd:
+    enabled: true
+    apply_when_nseg_odd: true
+    constant_range_rad: [-2.2, 2.2]
+    linear_range_rad_per_cm: [-7.0, 7.0]
+    quadratic_range_rad_per_cm2: [-2.2, 2.2]
+    object_phase_scale_range_rad: [0.0, 5.0]
+    smooth_std_range_rad: [0.0, 0.8]
+    estimate_error_std_rad: 0.12
+
+  trajectory:
+    segment_shift_range_cm: [-0.012, 0.012]
+    readout_shift_range_px: [-1.6, 1.6]
+    phase_shift_range_px: [-1.2, 1.2]
+    line_dropout_probability: 0.16
+    line_dropout_width: 2
+
+  intensity:
+    gain_range: [0.55, 1.60]
+    bias_field_std_range: [0.0, 0.38]
+    bias_grid: 5
+    gamma_range: [0.70, 1.45]
+
+  noise:
+    complex_std: [0.006, 0.055]
+    relative_to_signal: true
+    kspace_spike_probability: 0.08
+    kspace_spike_scale: [0.20, 1.10]
