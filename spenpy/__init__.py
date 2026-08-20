@@ -1,6 +1,6 @@
 """SPEN MRI reconstruction and Bruker ParaVision readers."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = []
 
 try:
@@ -8,6 +8,7 @@ try:
     from spenpy.fft import fft_kspace_to_xspace, fft_xspace_to_kspace
     from spenpy.utils import mult_mat_tensor
     from spenpy.utils.coil_combine import coil_combine, coil_combine_batched
+    from spenpy.sim.xspen import XSPENAcquisition, XSPENParameters, XSPENSimulator
 except ModuleNotFoundError as exc:
     if exc.name != "torch":
         raise
@@ -20,4 +21,7 @@ else:
         "mult_mat_tensor",
         "coil_combine",
         "coil_combine_batched",
+        "XSPENAcquisition",
+        "XSPENParameters",
+        "XSPENSimulator",
     ]

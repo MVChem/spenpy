@@ -4,10 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spenpy"
-version = "0.1.0"
-description = "SPEN (Spatiotemporally Encoded) MRI reconstruction in Python"
+version = "0.2.0"
+description = "SPEN and xSPEN MRI simulation and reconstruction in Python"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
 requires-python = ">=3.10"
 dependencies = [
     "numpy>=1.24",

@@ -1,12 +1,15 @@
 # SPENPy
 
-SPENPy is a Python toolkit for SPEN (Spatiotemporally Encoded) MRI work. It
-covers two related workflows:
+SPENPy is a Python toolkit for SPEN (Spatiotemporally Encoded) and xSPEN MRI
+work. It covers three related workflows:
 
-1. Simulation: generate SPEN-encoded and phase-corrupted images from a clean
+1. Minimal xSPEN simulation: generate ideal, sorted raw k-space using the
+   crossed-chirp localization equation and reconstruct it with a matched
+   regularized inverse.
+2. SPEN simulation: generate SPEN-encoded and phase-corrupted images from a clean
    reference image, build `AFinal` and `InvA`, and test reconstruction or
    ghost-correction ideas.
-2. Bruker reconstruction: read ParaVision PV5 or PV360 studies, reconstruct
+3. Bruker reconstruction: read ParaVision PV5 or PV360 studies, reconstruct
    SPEN scans, and export MATLAB-compatible `.mat` files plus optional PNG
    summaries.
 
@@ -63,6 +66,35 @@ uv run python spenpy/demo/01_run_pv360_pipeline.py --help
 ```
 
 ## Quick Start
+
+### Simulate and Reconstruct Minimal xSPEN Data
+
+```python
+import torch
+
+from spenpy.sim import XSPENParameters, XSPENSimulator
+
+params = XSPENParameters(n_xspen=64, n_readout=64, r_value=64)
+sim = XSPENSimulator(params)
+
+image = torch.rand(64, 64)
+acquisition = sim.acquire(image, noise_std=0.002, seed=7)
+reconstruction = sim.reconstruct(acquisition, regularization=1e-3)
+
+print(acquisition.raw_kspace.shape)  # (64, 64), complex64
+print(reconstruction.shape)         # (64, 64), complex64
+```
+
+The first xSPEN model is intentionally ideal: one coil, a uniform auxiliary
+slice, on-resonance spins, ideal chirps, and already sorted EPI readouts. Run
+the end-to-end figure demo with:
+
+```bash
+python demo/18_minimal_xspen_simulation.py --output /tmp/xspen_demo.png
+```
+
+See [`docs/xspen_simulation.md`](docs/xspen_simulation.md) for the signal
+equation, parameter definitions, reconstruction, and current limits.
 
 ### Reconstruct Bruker PV5 or PV360 Data
 
@@ -240,6 +272,7 @@ spenpy/
 | Utilities | `spenpy.utils.coil_combine` | `coil_combine` |
 | Utilities | `spenpy.utils.zero_fill` | `zero_filling_pv6`, `rm_zero_filling_pv6` |
 | Simulation | `spenpy.spen` | `spen.sim`, `spen.get_InvA`, `spen.from_yaml` |
+| xSPEN simulation | `spenpy.sim.xspen` | `XSPENParameters`, `XSPENSimulator.acquire`, `XSPENSimulator.reconstruct` |
 | CLI | `spenpy.cli.pv360` | `run_pv360`, `process_spen`, `process_rare_epi` |
 | CLI | `spenpy.cli.pv360_full` | `run_pv360_full`, figure writers, PV5/PV360 datalist handling |
 
@@ -280,6 +313,7 @@ anatomically. If you need the pre-flip tensors, call
 | [`demo/03_inspect_intermediate_steps.py`](demo/03_inspect_intermediate_steps.py) | Inspect raw k-space, regridding, readout FFT, SR matrix, and final image. |
 | [`demo/04_compare_with_matlab.py`](demo/04_compare_with_matlab.py) | Compare Python `.mat` output against MATLAB output. |
 | [`demo/05_visualize_phase_maps.py`](demo/05_visualize_phase_maps.py) | Experimental phase-correction diagnostics and visualization. |
+| [`demo/18_minimal_xspen_simulation.py`](demo/18_minimal_xspen_simulation.py) | Minimal xSPEN phantom, ideal raw acquisition, and matched reconstruction. |
 
 ## Testing and Validation
 
@@ -296,7 +330,8 @@ Pure Python unit tests:
     tests/test_core.py \
     tests/test_fft.py \
     tests/test_tensor.py \
-    tests/test_sim_config.py
+    tests/test_sim_config.py \
+    tests/test_xspen.py
 ```
 
 Or, with `uv`:
@@ -306,7 +341,8 @@ uv run --extra dev python -m pytest \
     tests/test_core.py \
     tests/test_fft.py \
     tests/test_tensor.py \
-    tests/test_sim_config.py
+    tests/test_sim_config.py \
+    tests/test_xspen.py
 ```
 
 Bruker and MATLAB-oriented checks are environment dependent:

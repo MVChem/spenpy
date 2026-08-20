@@ -6,13 +6,30 @@ description: Quick orientation for AI tools reviewing the SPENPy repository, its
 # SPENPy quick look
 
 ## What this repository is
-SPENPy is a small Python simulation library for SPEN reconstruction experiments. It focuses on:
+SPENPy is a Python simulation and reconstruction library for SPEN/xSPEN experiments. It focuses on:
+
+- a minimal ideal xSPEN acquisition and matched regularized reconstruction,
 - simulating SPEN acquisition from a grayscale image,
 - producing corrupted / phase-affected data,
 - reconstructing with an approximate inverse system matrix `InvA`,
 - offering a faster degradation path through the forward matrix `AFinal`.
 
-The core implementation is in `spenpy/spen.py`.
+The configurable SPEN implementation is in `spenpy/sim/spen_sim.py`; the
+minimal xSPEN implementation is in `spenpy/sim/xspen.py`.
+
+## Minimal xSPEN start
+
+```python
+from spenpy.sim import XSPENParameters, XSPENSimulator
+
+sim = XSPENSimulator(XSPENParameters(n_xspen=64, n_readout=64, r_value=64))
+acquisition = sim.acquire(image, noise_std=0.002, seed=7)
+reconstruction = sim.reconstruct(acquisition, regularization=1e-3)
+```
+
+The xSPEN model is intentionally ideal and explicitly excludes off-resonance,
+multicoil sensitivities, EPI zigzag storage, and odd/even phase mismatch. See
+`docs/xspen_simulation.md` before extending it or treating it as training data.
 
 ## Quick start
 **Context:** Given a grayscale image tensor `img` of shape `(B, W, H)`.

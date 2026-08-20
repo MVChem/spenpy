@@ -1,8 +1,8 @@
 # SPEN PV360 reconstruction — Python demos
 
-This folder contains illustrative scripts that mimic the MATLAB driver
-[`spen_matlab/pv360.m`](../../spen_matlab/pv360.m) using the Python
-implementation in `spenpy.cli.pv360_full` and `spenpy.recon`.
+This folder contains illustrative SPEN/xSPEN scripts. Demos 01--17 focus on
+scanner reconstruction and diagnostics. Demo 18 is a standalone ideal xSPEN
+forward simulation and matched reconstruction.
 
 The goal of these demos is to:
 
@@ -73,6 +73,7 @@ which is a thin wrapper around the same entry point with annotated
 | [`07_real_scanner_reconstruction_step_by_step.ipynb`](07_real_scanner_reconstruction_step_by_step.ipynb) | Notebook walkthrough on the real PV360 scanner dataset: RARE/EPI context, raw k-space, regridded k-space, `Imag_origin`, `Imag_low`, fitted phase maps, masks, `Image_SPEN`, and matrix diagnostics. | A real-data teaching version of the traditional PV360 reconstruction pipeline. |
 | [`09_compare_phase_estimators.py`](09_compare_phase_estimators.py) | Compare simple odd/even phase-map estimators on a saved `slice_*.mat`: raw wrapped phase, circular Gaussian smoothing, unwrap smoothing, linear polynomial, and quadratic smooth polynomial. | A compact experiment for deciding whether a simpler phase estimator is enough before trying DL. |
 | [`10_test_time_phase_network.ipynb`](10_test_time_phase_network.ipynb) | Compare raw phase, the masked traditional quadratic/smoothed-residual method, and a tiny masked test-time coordinate network on one saved scanner slice, with phase maps, reconstructions, residuals, and runtimes. | Test-time replacement for a fixed quadratic phase surface. |
+| [`18_minimal_xspen_simulation.py`](18_minimal_xspen_simulation.py) | Generate a two-ellipse phantom, ideal xSPEN raw k-space, and a regularized reconstruction. | The localization equation in the archived `xSPEN1D.m`, followed by a conventional readout FFT. |
 
 ---
 
