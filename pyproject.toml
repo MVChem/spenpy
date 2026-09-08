@@ -1,46 +1,31 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "spenpy"
-version = "0.2.0"
-description = "SPEN and xSPEN MRI simulation and reconstruction in Python"
+version = "1.0.0"
+description = "Differentiable SPEN/xSPEN simulation, reconstruction and MRI data readers"
 readme = "README.md"
-license = "MIT"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
-]
 requires-python = ">=3.10"
-dependencies = [
-    "numpy>=1.24",
-    "torch>=2.0",
-    "scipy>=1.10",
-    "pillow>=9.0",
-    "PyYAML>=6.0",
-    "matplotlib>=3.7",
-    "nibabel>=5.2",
-]
+license = "MIT"
+dependencies = ["numpy>=1.24", "torch>=2.2"]
 
 [project.optional-dependencies]
-siemens = [
-    "twixtools>=0.24",
-]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov",
-]
+recon = ["scipy>=1.10"]
+io = ["scipy>=1.10", "h5py>=3.8", "Pillow>=9", "nibabel>=5", "twixtools>=0.24", "pynrrd>=1"]
+dev = ["pytest>=7", "matplotlib>=3.7", "ruff"]
 
-[project.scripts]
-spenpy = "spenpy.cli.pv360:main"
-spenpy-pv360-full = "spenpy.cli.pv360_full:main"
+[project.urls]
+Repository = "https://github.com/MVChem/spenpy"
+Changelog = "https://github.com/MVChem/spenpy/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["spenpy*"]
 
-[tool.setuptools.package-data]
-spenpy = ["configs/*.yaml"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["integration: requires local scanner reference data"]
+
+[tool.ruff]
+extend-exclude = ["spenpy/_legacy"]

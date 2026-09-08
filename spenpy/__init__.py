@@ -1,27 +1,26 @@
-"""SPEN MRI reconstruction and Bruker ParaVision readers."""
+"""SPEN/xSPEN: shared Torch physics with separate simulation, I/O and recon."""
 
-__version__ = "0.2.0"
-__all__ = []
+from .core import (
+    Acquisition,
+    HybridSPENDiff2Operator,
+    HybridSPENDiff2Protocol,
+    SPEN180Operator,
+    SPEN180Protocol,
+    SPENOperator,
+    SPENProtocol,
+    XSPENOperator,
+    XSPENProtocol,
+)
 
-try:
-    from spenpy.core import calcInvA, calcSRMatrixApprox
-    from spenpy.fft import fft_kspace_to_xspace, fft_xspace_to_kspace
-    from spenpy.utils import mult_mat_tensor
-    from spenpy.utils.coil_combine import coil_combine, coil_combine_batched
-    from spenpy.sim.xspen import XSPENAcquisition, XSPENParameters, XSPENSimulator
-except ModuleNotFoundError as exc:
-    if exc.name != "torch":
-        raise
-else:
-    __all__ = [
-        "calcInvA",
-        "calcSRMatrixApprox",
-        "fft_kspace_to_xspace",
-        "fft_xspace_to_kspace",
-        "mult_mat_tensor",
-        "coil_combine",
-        "coil_combine_batched",
-        "XSPENAcquisition",
-        "XSPENParameters",
-        "XSPENSimulator",
-    ]
+__version__ = "1.0.0"
+__all__ = [
+    "Acquisition",
+    "HybridSPENDiff2Operator",
+    "HybridSPENDiff2Protocol",
+    "SPEN180Operator",
+    "SPEN180Protocol",
+    "SPENOperator",
+    "SPENProtocol",
+    "XSPENOperator",
+    "XSPENProtocol",
+]

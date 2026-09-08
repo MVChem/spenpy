@@ -1,0 +1,37 @@
+{
+  "protocol": {
+    "sequence": "hybrid_spen_diff2",
+    "acquisition_shape": [
+      60,
+      64
+    ],
+    "fov_m": [
+      0.18,
+      0.192
+    ],
+    "r_value": 60.0,
+    "echo_spacing_s": 0.00047,
+    "chirp_duration_s": 0.01408,
+    "ro_refocusing_duration_s": 0.004096,
+    "ro_refocusing_r_value": 20.0,
+    "slice_thickness_m": 0.003,
+    "echo_time_s": 0.052,
+    "nominal_b_value_s_mm2": 600.0,
+    "spen_shift_pixels": 0.0
+  },
+  "diffusion_model": "nominal_orthogonal_pgse",
+  "tensor_model": "synthetic_positive_diagonal",
+  "volume_labels": [
+    "b0",
+    "DWI-RO",
+    "DWI-PE/SPEN",
+    "DWI-SS"
+  ],
+  "signal_shape": [
+    4,
+    60,
+    64,
+    32
+  ],
+  "calibrated_to_scanner": false
+}
