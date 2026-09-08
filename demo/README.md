@@ -74,6 +74,7 @@ which is a thin wrapper around the same entry point with annotated
 | [`09_compare_phase_estimators.py`](09_compare_phase_estimators.py) | Compare simple odd/even phase-map estimators on a saved `slice_*.mat`: raw wrapped phase, circular Gaussian smoothing, unwrap smoothing, linear polynomial, and quadratic smooth polynomial. | A compact experiment for deciding whether a simpler phase estimator is enough before trying DL. |
 | [`10_test_time_phase_network.ipynb`](10_test_time_phase_network.ipynb) | Compare raw phase, the masked traditional quadratic/smoothed-residual method, and a tiny masked test-time coordinate network on one saved scanner slice, with phase maps, reconstructions, residuals, and runtimes. | Test-time replacement for a fixed quadratic phase surface. |
 | [`18_minimal_xspen_simulation.py`](18_minimal_xspen_simulation.py) | Generate a two-ellipse phantom, ideal xSPEN raw k-space, and a regularized reconstruction. | The localization equation in the archived `xSPEN1D.m`, followed by a conventional readout FFT. |
+| [`19_spen_original_tinyphase_inva.ipynb`](19_spen_original_tinyphase_inva.ipynb) | Compare TinyPhase + InvA after coil combination (`spen_original`) with the same method on the four receiver coils before adaptive combination. | Experimental ordering comparison; the four-coil branch follows the conventional per-coil reconstruction order. |
 
 ---
 
